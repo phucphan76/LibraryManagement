@@ -151,6 +151,29 @@ app.post('/api/loans/return', async (req, res) => {
   }
 });
 
+// 5.5 GetAllLoans for LoanManagement
+app.get('/api/loans', async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT 
+        l.loan_id, 
+        r.full_name as reader_name, 
+        l.borrow_date, 
+        l.due_date, 
+        l.status,
+        (SELECT COUNT(*) FROM library_app.loan_details ld WHERE ld.loan_id = l.loan_id) as total_books,
+        (SELECT COUNT(*) FROM library_app.loan_details ld WHERE ld.loan_id = l.loan_id AND ld.return_status = 'returned') as returned_books
+      FROM library_app.loans l
+      JOIN library_app.readers r ON l.reader_id = r.reader_id
+      ORDER BY l.borrow_date DESC
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // 6. Reader's history
 app.get('/api/users/:id/loans', async (req, res) => {
   try {

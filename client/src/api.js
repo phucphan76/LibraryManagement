@@ -64,3 +64,5 @@ export const updateReaderStatus = (id, status) => fetch(`${API_URL}/readers/${id
   if (!res.ok) throw new Error((await res.json()).error);
   return res.json();
 });
+
+export const fetchLoans = () => fetch(`${API_URL}/loans`, { headers: getHeaders() }).then(res => res.json());

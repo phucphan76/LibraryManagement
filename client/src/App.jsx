@@ -17,6 +17,7 @@ import LibrarianDashboard from './pages/librarian/Dashboard';
 import BookManagement from './pages/librarian/BookManagement';
 import TransactionManagement from './pages/librarian/TransactionManagement';
 import ReaderManagement from './pages/librarian/ReaderManagement';
+import LoanManagement from './pages/librarian/LoanManagement';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ allowedRoles }) => {
@@ -87,6 +88,9 @@ const LibrarianLayout = () => {
           <Link to="/librarian/transactions" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
             <Settings size={20} /> Mượn / Trả sách
           </Link>
+          <Link to="/librarian/loans" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
+            <BookOpen size={20} /> Quản lý Phiếu mượn
+          </Link>
           <Link to="/librarian/readers" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
             <User size={20} /> Quản lý Độc giả
           </Link>
@@ -137,6 +141,7 @@ function AppRoutes() {
           <Route path="books" element={<BookManagement />} />
           <Route path="transactions" element={<TransactionManagement />} />
           <Route path="readers" element={<ReaderManagement />} />
+          <Route path="loans" element={<LoanManagement />} />
         </Route>
       </Route>
     </Routes>
