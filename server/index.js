@@ -20,7 +20,18 @@ const runQuery = async (queryText, params) => {
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/readers', require('./routes/readers'));
 
-// 1. Dashboard Stats
+// 1. Categories
+app.get('/api/categories', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM library_app.categories ORDER BY category_name');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// 1.5 Dashboard Stats
 app.get('/api/dashboard', async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM library_app.vw_dashboard_summary');

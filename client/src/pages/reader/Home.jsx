@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, BookOpen } from 'lucide-react';
-import { fetchBooks } from '../../api';
-
-// Categories fetched from API or hardcoded for now
-const categories = [
-  { id: 1, name: 'Programming' },
-  { id: 2, name: 'Database' },
-  { id: 3, name: 'Networking' },
-  { id: 4, name: 'Artificial Intelligence' }
-];
+import { fetchBooks, fetchCategories } from '../../api';
 
 const ReaderHome = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [books, setBooks] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBooks().then(data => {
-      setBooks(data);
-      setLoading(false);
-    }).catch(console.error);
+    Promise.all([fetchBooks(), fetchCategories()])
+      .then(([booksData, categoriesData]) => {
+        setBooks(booksData);
+        setCategories(categoriesData);
+        setLoading(false);
+      })
+      .catch(console.error);
   }, []);
 
   const filteredBooks = books.filter(book => {
@@ -47,9 +43,9 @@ const ReaderHome = () => {
               Tất cả
             </label>
             {categories.map(cat => (
-              <label key={cat.id} style={{ display: 'flex', gap: '0.5rem', cursor: 'pointer' }}>
-                <input type="radio" name="category" value={cat.name} checked={selectedCategory === cat.name} onChange={(e) => setSelectedCategory(e.target.value)} />
-                {cat.name}
+              <label key={cat.category_id} style={{ display: 'flex', gap: '0.5rem', cursor: 'pointer' }}>
+                <input type="radio" name="category" value={cat.category_name} checked={selectedCategory === cat.category_name} onChange={(e) => setSelectedCategory(e.target.value)} />
+                {cat.category_name}
               </label>
             ))}
           </div>
@@ -75,9 +71,13 @@ const ReaderHome = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.5rem' }}>
             {filteredBooks.map(book => (
               <div key={book.book_id} className="glass-card" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                <div style={{ width: '100%', height: '200px', backgroundColor: 'var(--primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <BookOpen size={48} color="var(--primary-300)" />
-                </div>
+                {book.cover_image ? (
+                  <img src={book.cover_image} alt={book.title} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+                ) : (
+                  <div style={{ width: '100%', height: '300px', backgroundColor: 'var(--primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <BookOpen size={48} color="var(--primary-300)" />
+                  </div>
+                )}
                 <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
                   <h4 style={{ fontWeight: 700, fontSize: '1.1rem', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{book.title}</h4>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>

@@ -28,6 +28,7 @@ export const loginUser = (credentials) => fetch(`${API_URL}/auth/login`, {
 
 export const fetchBooks = () => fetch(`${API_URL}/books`, { headers: getHeaders() }).then(res => res.json());
 export const fetchBookDetail = (id) => fetch(`${API_URL}/books/${id}`, { headers: getHeaders() }).then(res => res.json());
+export const fetchCategories = () => fetch(`${API_URL}/categories`, { headers: getHeaders() }).then(res => res.json());
 export const fetchDashboard = () => fetch(`${API_URL}/dashboard`, { headers: getHeaders() }).then(res => res.json());
 
 export const checkoutBooks = (userId, bookIds) => fetch(`${API_URL}/loans/checkout`, {

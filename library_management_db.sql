@@ -170,6 +170,8 @@ CREATE TABLE books (
 
     shelf_location VARCHAR(50),
 
+    cover_image TEXT,
+
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_books_category
@@ -231,7 +233,8 @@ INSERT INTO books (
     published_year,
     total_quantity,
     available_quantity,
-    shelf_location
+    shelf_location,
+    cover_image
 )
 VALUES
 (
@@ -241,7 +244,8 @@ VALUES
     2008,
     5,
     5,
-    'A1'
+    'A1',
+    '/covers/clean_code.png'
 ),
 (
     'Computer Networks',
@@ -250,7 +254,8 @@ VALUES
     2010,
     3,
     3,
-    'B2'
+    'B2',
+    '/covers/computer_networks.png'
 ),
 (
     'Introduction to Algorithms',
@@ -259,7 +264,8 @@ VALUES
     2009,
     4,
     4,
-    'C3'
+    'C3',
+    '/covers/intro_algorithms.png'
 ),
 (
     'Deep Learning',
@@ -268,7 +274,8 @@ VALUES
     2016,
     2,
     2,
-    'D1'
+    'D1',
+    '/covers/deep_learning.png'
 );
 
 -- =========================
@@ -679,7 +686,8 @@ SELECT
     b.published_year,
     b.total_quantity,
     b.available_quantity,
-    b.shelf_location
+    b.shelf_location,
+    b.cover_image
 FROM books b
 JOIN categories c ON b.category_id = c.category_id
 LEFT JOIN book_authors ba ON b.book_id = ba.book_id
@@ -692,7 +700,8 @@ GROUP BY
     b.published_year,
     b.total_quantity,
     b.available_quantity,
-    b.shelf_location;
+    b.shelf_location,
+    b.cover_image;
 
 
 -- 2. View sách đang được mượn

@@ -43,9 +43,13 @@ const BookDetail = () => {
 
       <div className="glass-panel" style={{ display: 'flex', gap: '3rem', padding: '3rem' }}>
         {/* Left Column: Image */}
-        <div style={{ width: '300px', flexShrink: 0, backgroundColor: 'var(--primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-md)', height: '400px' }}>
-          <BookMarked size={100} color="var(--primary-300)" />
-        </div>
+        {book.cover_image ? (
+          <img src={book.cover_image} alt={book.title} style={{ width: '300px', height: '400px', objectFit: 'cover', borderRadius: 'var(--radius-md)', flexShrink: 0, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }} />
+        ) : (
+          <div style={{ width: '300px', flexShrink: 0, backgroundColor: 'var(--primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-md)', height: '400px' }}>
+            <BookMarked size={100} color="var(--primary-300)" />
+          </div>
+        )}
 
         {/* Right Column: Details */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
