@@ -65,5 +65,12 @@ export const updateReaderStatus = (id, status) => fetch(`${API_URL}/readers/${id
   if (!res.ok) throw new Error((await res.json()).error);
   return res.json();
 });
-
+export const fetchFines = () => fetch(`${API_URL}/fines`, { headers: getHeaders() }).then(res => res.json());
+export const payFine = (id) => fetch(`${API_URL}/fines/${id}/pay`, {
+  method: 'PUT',
+  headers: getHeaders()
+}).then(async res => {
+  if (!res.ok) throw new Error((await res.json()).error);
+  return res.json();
+});
 export const fetchLoans = () => fetch(`${API_URL}/loans`, { headers: getHeaders() }).then(res => res.json());

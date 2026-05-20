@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet, Link } from 'react-router-dom';
-import { BookOpen, User, LogOut, LayoutDashboard, Settings } from 'lucide-react';
+import { BookOpen, User, LogOut, LayoutDashboard, Settings, DollarSign } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Auth Pages
@@ -18,6 +18,7 @@ import BookManagement from './pages/librarian/BookManagement';
 import TransactionManagement from './pages/librarian/TransactionManagement';
 import ReaderManagement from './pages/librarian/ReaderManagement';
 import LoanManagement from './pages/librarian/LoanManagement';
+import FineManagement from './pages/librarian/FineManagement';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ allowedRoles }) => {
@@ -91,6 +92,9 @@ const LibrarianLayout = () => {
           <Link to="/librarian/loans" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
             <BookOpen size={20} /> Quản lý Phiếu mượn
           </Link>
+          <Link to="/librarian/fines" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
+            <DollarSign size={20} /> Quản lý Phạt
+          </Link>
           <Link to="/librarian/readers" className="btn" style={{ justifyContent: 'flex-start', color: 'var(--text-secondary)', padding: '0.75rem 1rem' }}>
             <User size={20} /> Quản lý Độc giả
           </Link>
@@ -142,6 +146,7 @@ function AppRoutes() {
           <Route path="transactions" element={<TransactionManagement />} />
           <Route path="readers" element={<ReaderManagement />} />
           <Route path="loans" element={<LoanManagement />} />
+          <Route path="fines" element={<FineManagement />} />
         </Route>
       </Route>
     </Routes>

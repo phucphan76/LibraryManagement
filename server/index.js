@@ -185,6 +185,27 @@ app.get('/api/loans', async (req, res) => {
   }
 });
 
+// 5.8 Fines Management
+app.get('/api/fines', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM library_app.vw_fines_detail ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/api/fines/:id/pay', async (req, res) => {
+  try {
+    await db.query('UPDATE library_app.fines SET status = $1 WHERE fine_id = $2', ['paid', req.params.id]);
+    res.json({ message: 'Fine paid successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // 6. Reader's history
 app.get('/api/users/:id/loans', async (req, res) => {
   try {

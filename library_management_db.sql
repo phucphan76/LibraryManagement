@@ -971,3 +971,9 @@ $$;
 
 
 
+
+-- Test dummy data for fines
+-- Modify loan 1 to be overdue
+UPDATE loans SET borrow_date = '2026-04-01', due_date = '2026-05-01' WHERE loan_id = 1;
+-- Return the first book of loan 1, which will trigger fine calculation
+INSERT INTO returns (loan_detail_id, staff_id, return_date, note) VALUES (1, 2, '2026-05-20', 'Returned late');
